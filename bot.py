@@ -2,6 +2,8 @@ import telebot
 from telebot import types
 import json
 import os
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 TOKEN = os.getenv("BOT_TOKEN")
 CHANNELS = [
@@ -286,6 +288,28 @@ def search_movie(message):
     )
 
 
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot is running!")
+
+    def log_message(self, format, *args):
+        return
+
+
+PORT = int(os.getenv("PORT", 10000))
+
+server = HTTPServer(("0.0.0.0", PORT), HealthHandler)
+
+threading.Thread(
+    target=server.serve_forever,
+    daemon=True
+).start()
+
+print(f"🌐 Server port {PORT} da ishga tushdi")
 print("🤖 Kino bot ishga tushdi!")
+
+bot.infinity_polling(skip_pending=True)
 
 bot.infinity_polling()
