@@ -3,8 +3,7 @@ from telebot import types
 import json
 import os
 
-TOKEN = os.getenv ( "8851055301:AAGgIZq7YU7uHiIFTZL5sK2P93vV60jmEqg")
-
+TOKEN = os.getenv("BOT_TOKEN")
 CHANNELS = [
     "@sbrxls",
     "@sbrxlss"
